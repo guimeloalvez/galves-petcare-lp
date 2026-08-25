@@ -16,10 +16,10 @@ export default function Navbar() {
                         <a href="" className="text-xs md:text-base text-[#1F4136]">Inicio</a>
                     </li>
                     <li>
-                        <a href="" className="text-xs md:text-[#1F4136]">Funcionalidades</a>
+                        <a href="" className="text-xs md:text-base text-[#1F4136]">Funcionalidades</a>
                     </li>
                     <li>
-                        <a href="" className="text-xs md:text-[#1F4136]">Contato</a>
+                        <a href="" className="text-xs md:text-base text-[#1F4136]">Contato</a>
                     </li>
                 </ul>
             </nav>
