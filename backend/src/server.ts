@@ -1,7 +1,7 @@
 import express, { response, type Request, type Response } from "express";
 import { randomUUID } from "node:crypto";
 import { pool } from "./databse/connection.js";
-import { clinetRouter } from "./routes/client.routes.js";
+import { clienteRouter } from "./routes/client.routes.js";
 
 const app = express();
 const port = 3000;
@@ -35,7 +35,7 @@ app.post(
   },
 );
 
-app.use("/cliente", clinetRouter);
+app.use("/cliente", clienteRouter);
 
 interface CreateUserBody {
   name: string;
