@@ -27,8 +27,9 @@ clienteRouter.post(
   "/",
   async (request: Request<{}, {}, CriarCliente>, response: Response) => {
     try {
-      const { email, idade, nome, telefone } = request.body;
-      const cliente = await clientService.create(nome, telefone, idade, email);
+      const dados = request.body;
+
+      const cliente = await clientService.create(dados);
 
       return response.status(201).json(cliente);
     } catch (error) {
