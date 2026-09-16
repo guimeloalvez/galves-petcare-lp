@@ -32,6 +32,15 @@ class ClienteService {
 
     return cliente;
   }
+
+  async inativarCliente(id: string): Promise<boolean> {
+    const res = await pool.query(
+      "UPDATE clientes SET status='inativo' WHERE id = $1",
+      [id],
+    );
+
+    return (res.rowCount ?? 0) > 0;
+  }
 }
 
 export const clientService = new ClienteService();
