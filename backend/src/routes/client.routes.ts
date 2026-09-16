@@ -41,3 +41,19 @@ clienteRouter.post(
     }
   },
 );
+
+clienteRouter.get(
+  "/:id",
+  async (request: Request<{ id: string }>, response: Response) => {
+    const { id } = request.params;
+    try {
+      const res = await clientService.getById(id);
+      return response.json(res);
+    } catch (error) {
+      console.error(error);
+      return response.status(500).json({
+        error: "Erro interno",
+      });
+    }
+  },
+);

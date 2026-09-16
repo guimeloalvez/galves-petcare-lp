@@ -9,6 +9,14 @@ class ClienteService {
     return res.rows;
   }
 
+  async getById(id: string): Promise<Cliente[]> {
+    const res = await pool.query<Cliente>(
+      "SELECT * FROM clientes WHERE id = $1",
+      [id],
+    );
+    return res.rows;
+  }
+
   async create(dados: CriarCliente): Promise<Cliente> {
     const res = await pool.query<Cliente>(
       `INSERT INTO clientes 
