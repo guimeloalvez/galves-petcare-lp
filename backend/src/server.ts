@@ -1,6 +1,4 @@
 import express, { response, type Request, type Response } from "express";
-import { randomUUID } from "node:crypto";
-import { pool } from "./databse/connection.js";
 import { clienteRouter } from "./routes/client.routes.js";
 
 const app = express();
@@ -14,32 +12,7 @@ app.get("/health", (_request: Request, response: Response) => {
   });
 });
 
-interface CreateUserBody {
-  name: string;
-}
-
-app.post(
-  "/users",
-  (request: Request<object, object, CreateUserBody>, response: Response) => {
-    const name = request.body.name?.trim();
-    if (!name) {
-      return response.status(400).json({
-        error: "Name is required",
-      });
-    }
-
-    return response.status(201).json({
-      id: randomUUID(),
-      name,
-    });
-  },
-);
-
 app.use("/cliente", clienteRouter);
-
-interface CreateUserBody {
-  name: string;
-}
 
 app.listen(port, () => {
   console.log(`API rodando em http://localhost:${port}`);
