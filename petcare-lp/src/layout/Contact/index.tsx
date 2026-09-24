@@ -8,7 +8,7 @@ export default function Contact() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
 
-  function sendEmail(e) {
+  function sendEmail(e: React.SyntheticEvent) {
     e.preventDefault();
 
     const templateParams = {
