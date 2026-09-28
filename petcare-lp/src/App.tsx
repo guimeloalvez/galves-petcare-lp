@@ -3,6 +3,7 @@ import Hero from "./layout/Hero/index";
 import Features from "./layout/Features";
 import Info from "./layout/Info";
 import Contact from "./layout/Contact";
+import Footer from "./layout/Footer";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Features />
       <Info />
       <Contact />
+      <Footer />
     </>
   );
 }
