@@ -1,11 +1,13 @@
 export interface Venda {
   id: string;
-  cliente_id: string;
-  data_venda: Date;
-  valor_total: number;
+  id_item: string;
+  id_funcionario: string;
+  id_cliente: string;
+  data: string;
 }
 
 export interface CriarVenda {
-  cliente_id: string;
-  valor_total: number;
+  id_item: string;
+  id_funcionario: string;
+  id_cliente: string;
 }
