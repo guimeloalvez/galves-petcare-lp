@@ -14,6 +14,7 @@ import { estoqueRouter } from "./routes/estoque.routes.js";
 import { logSistemaRouter } from "./routes/log_sistema.routes.js";
 import { vendaRouter } from "./routes/venda.routes.js";
 import { consultaRouter } from "./routes/consulta.routes.js";
+import { authRouter } from "./routes/auth.routes.js";
 
 const app = express();
 const port = 3000;
@@ -25,6 +26,8 @@ app.get("/health", (_request: Request, response: Response) => {
     status: "ok",
   });
 });
+
+app.use("/auth", authRouter);
 
 app.use("/cliente", clienteRouter);
 

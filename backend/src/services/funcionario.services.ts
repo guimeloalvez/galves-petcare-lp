@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { pool } from "../databse/connection.js";
 import { Funcionario, CriarFuncionario } from "../types/funcionario.js";
 
@@ -15,11 +16,28 @@ class FuncionarioService {
     return res.rows;
   }
 
-  async create(dados: CriarFuncionario): Promise<Funcionario> {
+  async getByEmail(email: string): Promise<Funcionario | null> {
     const res = await pool.query<Funcionario>(
-      `INSERT INTO funcionarios (nome, cpf, cargo_func_id, status) 
-       VALUES ($1, $2, $3, 'ativo') RETURNING *`,
-      [dados.nome, dados.cpf, dados.cargo_func_id],
+      "SELECT * FROM funcionarios WHERE email = \$1",
+      [email],
+    );
+    return res.rows[0] || null;
+  }
+
+  async create(dados: CriarFuncionario): Promise<Funcionario> {
+    const saltRounds = 10;
+    const senhaCriptografada = await bcrypt.hash(dados.senha, saltRounds);
+
+    const res = await pool.query<Funcionario>(
+      `INSERT INTO funcionarios (nome, cpf, email, senha, cargo_func_id, status) 
+       VALUES ($1, $2, $3, $4, $5, 'ativo') RETURNING *`,
+      [
+        dados.nome,
+        dados.cpf,
+        dados.email,
+        senhaCriptografada,
+        dados.cargo_func_id,
+      ],
     );
 
     const funcionario = res.rows[0];
