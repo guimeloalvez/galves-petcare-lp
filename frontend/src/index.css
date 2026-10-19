@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Baloo 2", sans-serif;
+  --font-sans: "Manrope", sans-serif;
+
+  --shadow-brand: 0 6px 16px rgba(21, 50, 41, 0.18);
+
+  --color-green-dark: #153229;
+  --color-bg-primary: #fbf9f4;
+  --color-orange-primary: #ff6b4a;
+  --color-green-light: #3f9271;
+  --color-gray-dark: #7d7d7d;
+  --color-gray-light: #ccc;
+}
+
+:root {
+  background-color: var(--color-bg-primary);
+  scroll-behavior: smooth;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+}
