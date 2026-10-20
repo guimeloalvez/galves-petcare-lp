@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { pool } from "../databse/connection.js";
-import { Funcionario, CriarFuncionario } from "../types/funcionario.js";
+import { Funcionario, CriarFuncionario } from "../types/funcionarios.js";
 
 class FuncionarioService {
   async getAll(): Promise<Funcionario[]> {
@@ -29,15 +29,9 @@ class FuncionarioService {
     const senhaCriptografada = await bcrypt.hash(dados.senha, saltRounds);
 
     const res = await pool.query<Funcionario>(
-      `INSERT INTO funcionarios (nome, cpf, email, senha, cargo_func_id, status) 
-       VALUES ($1, $2, $3, $4, $5, 'ativo') RETURNING *`,
-      [
-        dados.nome,
-        dados.cpf,
-        dados.email,
-        senhaCriptografada,
-        dados.cargo_func_id,
-      ],
+      `INSERT INTO funcionarios (nome, email, senha, id_cargo, status) 
+       VALUES ($1, $2, $3, $4, 'ativo') RETURNING *`,
+      [dados.nome, dados.email, senhaCriptografada, dados.id_cargo],
     );
 
     const funcionario = res.rows[0];

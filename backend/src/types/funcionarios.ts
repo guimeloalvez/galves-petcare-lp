@@ -1,10 +1,9 @@
 export interface Funcionario {
   id: string;
   nome: string;
-  cpf: string;
   email: string;
   senha: string;
-  cargo_func_id: string;
+  id_cargo: string;
   status: "ativo" | "inativo";
 }
 
@@ -13,7 +12,8 @@ export interface CriarFuncionario {
   cpf: string;
   email: string;
   senha: string;
-  cargo_func_id: string;
+  id_cargo: string;
+  status: string;
 }
 
 export interface RespostaLogin {

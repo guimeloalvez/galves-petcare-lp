@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from "express";
-import { funcionarioService } from "../services/funcionario.services.js";
-import { CriarFuncionario } from "../types/funcionario.js";
+import { funcionarioService } from "../services/funcionarios.services.js";
+import { CriarFuncionario } from "../types/funcionarios.js";
 
 export const funcionarioRouter = Router();
 

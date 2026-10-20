@@ -1,6 +1,6 @@
 import express, { response, type Request, type Response } from "express";
 import { clienteRouter } from "./routes/client.routes.js";
-import { funcionarioRouter } from "./routes/funcionario.routes.js";
+import { funcionarioRouter } from "./routes/funcionarios.routes.js";
 import { animalRouter } from "./routes/animal.routes.js";
 import { cargoFuncRouter } from "./routes/cargo_func.routes.js";
 import { frotaRouter } from "./routes/frota.routes.js";
@@ -31,7 +31,7 @@ app.use("/auth", authRouter);
 
 app.use("/cliente", clienteRouter);
 
-app.use("/funcionario", funcionarioRouter);
+app.use("/funcionarios", funcionarioRouter);
 
 app.use("/animal", animalRouter);
 

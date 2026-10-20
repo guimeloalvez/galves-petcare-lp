@@ -1,14 +1,15 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { pool } from "../databse/connection.js";
-import { funcionarioService } from "./funcionario.services.js";
-import { RespostaLogin } from "../types/funcionario.js";
+import { funcionarioService } from "./funcionarios.services.js";
+import { RespostaLogin } from "../types/funcionarios.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
 class AuthService {
   async login(email: string, senhaInformada: string): Promise<RespostaLogin> {
     const funcionario = await funcionarioService.getByEmail(email);
+    console.log(funcionario);
 
     if (!JWT_SECRET) {
       throw new Error("A variável de ambiente JWT_SECRET não foi configurada!");
@@ -18,14 +19,16 @@ class AuthService {
       throw new Error("Credenciais inválidas ou usuário inativo.");
     }
 
+    console.log(senhaInformada);
     const senhaValida = await bcrypt.compare(senhaInformada, funcionario.senha);
+    console.log(senhaValida);
     if (!senhaValida) {
       throw new Error("Credenciais inválidas.");
     }
 
     const cargoQuery = await pool.query<{ id: string; nome: string }>(
       "SELECT id, nome FROM cargo_func WHERE id = $1",
-      [funcionario.cargo_func_id],
+      [funcionario.id_cargo],
     );
     const cargo = cargoQuery.rows[0];
 
