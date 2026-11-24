@@ -1,38 +1,17 @@
-import { pool } from "../databse/connection.js";
-import { Servico, CriarServico } from "../types/servico.js";
+import { servicoRepository } from "../repositories/servico.repository.js";
+import type { CriarServico } from "../types/servico.js";
 
 class ServicoService {
-  async getAll(): Promise<Servico[]> {
-    const res = await pool.query<Servico>("SELECT * FROM servicos");
-
-    return res.rows;
+  async getAll() {
+    return await servicoRepository.getAll();
   }
 
-  async getById(id: string): Promise<Servico[]> {
-    const res = await pool.query<Servico>(
-      "SELECT * FROM servicos WHERE id = $1",
-      [id],
-    );
-
-    return res.rows;
+  async getById(id: string) {
+    return await servicoRepository.getById(id);
   }
 
-  async create(dados: CriarServico): Promise<Servico> {
-    const res = await pool.query<Servico>(
-      `INSERT INTO servicos
-        (nome)
-       VALUES ($1)
-       RETURNING *`,
-      [dados.nome],
-    );
-
-    const servico = res.rows[0];
-
-    if (!servico) {
-      throw new Error("O banco não retornou o serviço cadastrado");
-    }
-
-    return servico;
+  async create(dados: CriarServico) {
+    return await servicoRepository.create(dados);
   }
 }
 

@@ -1,50 +1,27 @@
 import bcrypt from "bcrypt";
-import { pool } from "../databse/connection.js";
-import { Funcionario, CriarFuncionario } from "../types/funcionarios.js";
+import { funcionarioRepository } from "../repositories/funcionario.repository.js";
+import type { CriarFuncionario } from "../types/funcionarios.js";
 
 class FuncionarioService {
-  async getAll(): Promise<Funcionario[]> {
-    const res = await pool.query<Funcionario>("SELECT * FROM funcionarios");
-    return res.rows;
+  async getAll() {
+    return await funcionarioRepository.getAll();
   }
 
-  async getById(id: string): Promise<Funcionario[]> {
-    const res = await pool.query<Funcionario>(
-      "SELECT * FROM funcionarios WHERE id = \$1",
-      [id],
-    );
-    return res.rows;
+  async getById(id: string) {
+    return await funcionarioRepository.getById(id);
   }
 
-  async getByEmail(email: string): Promise<Funcionario | null> {
-    const res = await pool.query<Funcionario>(
-      "SELECT * FROM funcionarios WHERE email = \$1",
-      [email],
-    );
-    return res.rows[0] || null;
+  async create(dados: CriarFuncionario) {
+    const senha = await bcrypt.hash(dados.senha, 10);
+    return await funcionarioRepository.create({ ...dados, senha });
   }
 
-  async create(dados: CriarFuncionario): Promise<Funcionario> {
-    const saltRounds = 10;
-    const senhaCriptografada = await bcrypt.hash(dados.senha, saltRounds);
-
-    const res = await pool.query<Funcionario>(
-      `INSERT INTO funcionarios (nome, email, senha, id_cargo, status) 
-       VALUES ($1, $2, $3, $4, 'ativo') RETURNING *`,
-      [dados.nome, dados.email, senhaCriptografada, dados.id_cargo],
-    );
-
-    const funcionario = res.rows[0];
-    if (!funcionario) throw new Error("Erro ao cadastrar funcionário");
-    return funcionario;
+  async getByEmail(email: string) {
+    return await funcionarioRepository.getByEmail(email);
   }
 
-  async inativarFuncionario(id: string): Promise<boolean> {
-    const res = await pool.query(
-      "UPDATE funcionarios SET status='inativo' WHERE id = \$1",
-      [id],
-    );
-    return (res.rowCount ?? 0) > 0;
+  async inativarFuncionario(id: string) {
+    return await funcionarioRepository.inativarFuncionario(id);
   }
 }
 

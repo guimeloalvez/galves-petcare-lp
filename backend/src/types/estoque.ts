@@ -1,14 +1,11 @@
-export interface Consulta {
+export interface Estoque extends CriarEstoque {
   id: string;
-  data: string;
-  id_animal: string;
-  id_medico: string;
-  id_servico: string;
 }
 
-export interface CriarConsulta {
-  data: string;
-  id_animal: string;
-  id_medico: string;
-  id_servico: string;
+export interface CriarEstoque {
+  nome: string;
+  descricao: string;
+  quantidade: number;
+  valor: number;
+  dt_validade: string;
 }

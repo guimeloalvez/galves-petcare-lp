@@ -1,45 +1,21 @@
-import { error } from "node:console";
-import { pool } from "../databse/connection.js";
-import { Cliente, CriarCliente } from "../types/cliente.js";
+import { clientRepository } from "../repositories/cliente.repository.js";
+import type { CriarCliente } from "../types/cliente.js";
 
 class ClienteService {
-  async getAll(): Promise<Cliente[]> {
-    const res = await pool.query<Cliente>("SELECT * FROM clientes");
-
-    return res.rows;
+  async getAll() {
+    return await clientRepository.getAll();
   }
 
-  async getById(id: string): Promise<Cliente[]> {
-    const res = await pool.query<Cliente>(
-      "SELECT * FROM clientes WHERE id = $1",
-      [id],
-    );
-    return res.rows;
+  async getById(id: string) {
+    return await clientRepository.getById(id);
   }
 
-  async create(dados: CriarCliente): Promise<Cliente> {
-    const res = await pool.query<Cliente>(
-      `INSERT INTO clientes 
-            (nome, telefone, idade, email) VALUES ($1, $2, $3, $4) RETURNING *`,
-      [dados.nome, dados.telefone, dados.idade, dados.email],
-    );
-
-    const cliente = res.rows[0];
-
-    if (!cliente) {
-      throw new Error("O banco não retornou o cliente cadastrado");
-    }
-
-    return cliente;
+  async create(dados: CriarCliente) {
+    return await clientRepository.create(dados);
   }
 
-  async inativarCliente(id: string): Promise<boolean> {
-    const res = await pool.query(
-      "UPDATE clientes SET status='inativo' WHERE id = $1",
-      [id],
-    );
-
-    return (res.rowCount ?? 0) > 0;
+  async inativarCliente(id: string) {
+    return await clientRepository.inativarCliente(id);
   }
 }
 
